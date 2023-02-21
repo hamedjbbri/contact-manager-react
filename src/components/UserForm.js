@@ -1,38 +1,60 @@
-import React from 'react'
+
+import React, {useState , useEffect } from 'react'
 import UserTable from './UserTable'
+import { v4 as uuidv4 } from 'uuid';
 
 
 
 function UserForm() {
-  return (
-    <div class="user-form   m-auto mt-5">
-        <form className='bg-light p-5'>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name= "name" />
+
+    const [contact, setContact] = useState({name:'', age: 0, email:'', relocated: false});
+    const [userList, setUserList] = useState([]);
+
+    const handleChange = (e) => {
+        setContact({ id: uuidv4(), ...contact, [e.target.name]: e.target.value} )
+    }
+    const handleChangeCheckbox =(e) => {
+        setContact({...contact, relocated: e.target.checked})
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setUserList([...userList, contact])
+
+    }
+    
+ 
+ 
+    return (
+    <div className="user-form   m-auto mt-5">
+          
+        <form className='bg-light p-5' onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
+                    <input type="text" className="form-control" id="name" name= "name" onChange={handleChange} value={contact.name}/>
                          
                 </div>
 
-                <div class="mb-3">
-                    <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" name= "age" />
+                <div className="mb-3">
+                    <label htmlFor="age" className="form-label">Age</label>
+                    <input type="number" className="form-control" id="age" name= "age" onChange={handleChange} value={contact.age}/>
                          
                 </div>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name= "email" />
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <input type="email" className="form-control" id="email" name= "email" onChange={handleChange} value={contact.email}/>
                          
                 </div>
 
-                <div class="mb-3 form-check">
-             <input type="checkbox" class="form-check-input" id="relocated" />
-             <label class="form-check-label" for="relocated">Relocated</label>
+                <div className="mb-3 form-check">
+               <input type="checkbox" className="form-check-input" id="relocated" onChange={handleChangeCheckbox} value={contact.relocated}name="relocated"/>
+
+               <label className="form-check-label" htmlFor="relocated">Relocated</label>
              </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
-        <UserTable />
+        <UserTable userList = {userList} />
     </div>
   )
 }
