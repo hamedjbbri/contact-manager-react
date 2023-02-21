@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function UserForm() {
 
-    const [contact, setContact] = useState({name:'', age: 0, email:'', relocated: false});
+    const [contact, setContact] = useState({name:'', age: "", email:'', relocated: false});
     const [userList, setUserList] = useState([]);
 
     const handleChange = (e) => {
@@ -19,9 +19,13 @@ function UserForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setUserList([...userList, contact])
-
+        setContact({name:'', age: "", email:'', relocated: false});
     }
-    
+  
+     const handleDelete = (id) => {
+         const filteredArr = userList.filter( item => item.id !== id)
+         setUserList(filteredArr)
+     }
  
  
     return (
@@ -54,7 +58,7 @@ function UserForm() {
 
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
-        <UserTable userList = {userList} />
+        <UserTable userList = {userList} handleDelete={handleDelete} />
     </div>
   )
 }

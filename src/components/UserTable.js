@@ -1,7 +1,7 @@
 import React from 'react'
 
-function UserTable({ userList }) {
-    console.log(userList)
+function UserTable({ userList, handleDelete }) {
+   
   return (
     <div className='mt-5'>
         <table className="table table-striped">
@@ -20,7 +20,7 @@ function UserTable({ userList }) {
                     <td>{item.name}</td>
                     <td>{item.age}</td>
                     <td>{item.email}</td>
-                    <td><button className="btn btn-info m-1">Edit</button><button className="btn btn-danger">Delete</button></td>
+                    <td><button className="btn btn-info m-1">Edit</button><button  onClick={() => handleDelete(item.id)} className="btn btn-danger">Delete</button></td>
                    </tr>)}
                 </tbody>
             </table>
