@@ -7,26 +7,35 @@ import { v4 as uuidv4 } from 'uuid';
 
 function UserForm() {
 
+   
+
     const [contact, setContact] = useState({name:'', age: "", email:'', relocated: false});
+
     const [userList, setUserList] = useState([]);
 
     const handleChange = (e) => {
-        setContact({ id: uuidv4(), ...contact, [e.target.name]: e.target.value} )
+        setContact({ id: uuidv4(), ...contact, [e.target.name]: e.target.value})
     }
-    const handleChangeCheckbox =(e) => {
+    const handleChangeCheckbox = (e) => {
         setContact({...contact, relocated: e.target.checked})
     }
     const handleSubmit = (e) => {
         e.preventDefault();
         setUserList([...userList, contact])
+        localStorage.setItem('user-list', JSON.stringify([...userList, contact]))
         setContact({name:'', age: "", email:'', relocated: false});
     }
   
      const handleDelete = (id) => {
          const filteredArr = userList.filter( item => item.id !== id)
          setUserList(filteredArr)
+         localStorage.setItem('user-list', JSON.stringify(filteredArr))
      }
  
+     useEffect(() => {
+        const items =  JSON.parse( localStorage.getItem('user-list'));
+        setUserList(items)
+    },[])
  
     return (
     <div className="user-form   m-auto mt-5">
